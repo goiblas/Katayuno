@@ -1,19 +1,37 @@
-import max from 'lodash/max';
-import min from 'lodash/min';
+import { FIZZ, BUZZ} from './constants';
 
-const scaler = (dataset, _min = null, _max = null) => {
-    _min = _min || min(dataset);
-    _max = _max || max(dataset);
+class FizzBuzz {
+    respondeA(value) {
+        if( value === 0)
+            return 0
 
-    if (dataset.length === 1) {
-        _min = 0;
+        if(this._deberiaSerFizz(value) && this._deberiaSerBuzz(value)) 
+            return FIZZ + BUZZ
+
+        if( this._deberiaSerFizz( value)) 
+            return  FIZZ
+
+        if(this._deberiaSerBuzz(value)) 
+            return  BUZZ
+
+        return value
     }
+    _deberiaSerFizz(value) {
+        return this._contieneElNumero(value, 3) || value % 3 === 0
+    }
+    _deberiaSerBuzz(value) {
+        return this._contieneElNumero(value, 5) || value % 5 === 0
+    }
+    _contieneElNumero(inicial, numero) {
+        return String(inicial).includes(String(numero))
+    }
+    mostrarAll() {
+        let result = [];
+        for(let i = 0; i < 100; i++) {
+            result.push(`${i}(${this.respondeA(i)})`);
+        }
+        return result.join(', ')
+    }
+}
 
-    return dataset.map(normalize(_min, _max));
-};
-
-const normalize = (min, max) => (val) => (
-    (val - min) / (max - min)
-);
-
-export default scaler;
+export default FizzBuzz
